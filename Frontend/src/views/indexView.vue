@@ -198,25 +198,39 @@
     </div>
 </template>
 <script setup>
-
-import {get, post} from "@/net";
+import {service, post} from "@/net";
 import {ElMessage} from "element-plus";
 import router from "@/router";
-import {onMounted} from "vue";
+import {onMounted, reactive} from "vue";
 import {Message, Setting, ArrowDown} from '@element-plus/icons-vue'
+import { useCookies } from '@vueuse/integrations/useCookies'
+
+const cookies = useCookies(['locale'])
+
+let xsrf_check = reactive({
+    "xsrf-token": cookies.get('XSRF-TOKEN'),
+    "csrf-token": cookies.get('XSRF-TOKEN')
+})
 
 const logout = () => {
-    get("/api/auth/logout", (message) => {
+    post("/api/auth/logout", null,(message) => {
         ElMessage.success(message)
+        document.cookie = "";
         router.push("/")
     })
 }
 onMounted(() => {
-    get('/api/check', () => {
+
+    let csrf = cookies.get('XSRF-TOKEN')
+    console.log(csrf)
+    post('/api/check', xsrf_check, () => {
     }, (message) => {
         ElMessage.error(message)
         router.push("/")
-    })
+    }, (message) => {
+        ElMessage.error(message)
+        // router.push("/")
+    }, csrf)
 })
 </script>
 

@@ -39,40 +39,42 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">仓库管理</div>
+            <div class="ms-title">进出库管理系统</div>
             <div class="ms-content">
-                <div class="ms-in">
-                    <el-input
-                        v-model="param.username"
-                        placeholder="用户名">
-                        <template #prefix>
-                            <el-icon><User/></el-icon>
-                        </template>
-                    </el-input>
-                </div>
-                <div class="ms-in">
-                    <el-input
-                        type="password"
-                        placeholder="密码"
-                        v-model="param.password"
-                    >
-                        <template #prefix>
-                            <el-icon><Lock/></el-icon>
-                        </template>
-                    </el-input>
-                </div>
-                <div class="ms-in">
-                    <el-checkbox style="color: black" v-model="param.remember" label="记住我" size="small" />
-                </div>
-                <div class="login-btn">
-                    <el-button type="primary" @click="login()">登录</el-button>
-                </div>
-                <div style="text-align: center">
-                    <span style="font-size: 8px; color: darkgray;">还没有账号？</span>
-                </div>
-                <div class="login-btn">
-                    <el-button style="margin-top: 5px" type="warning" @click="push()">注册</el-button>
-                </div>
+                <el-form>
+                    <el-form-item>
+                        <el-input
+                            v-model="param.username"
+                            placeholder="用户名">
+                            <template #prefix>
+                                <el-icon><User/></el-icon>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input
+                            type="password"
+                            placeholder="密码"
+                            v-model="param.password"
+                        >
+                            <template #prefix>
+                                <el-icon><Lock/></el-icon>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    <div class="ms-in">
+                        <el-checkbox style="color: black" v-model="param.remember" label="记住我" size="small" />
+                    </div>
+                    <div class="login-btn">
+                        <el-button type="primary" @click="login()">登录</el-button>
+                    </div>
+                    <div style="text-align: center">
+                        <span style="font-size: 8px; color: darkgray;">还没有账号？</span>
+                    </div>
+                    <div class="login-btn">
+                        <el-button style="margin-top: 5px" type="warning" @click="push()">注册</el-button>
+                    </div>
+                </el-form>
             </div>
         </div>
     </div>
@@ -101,6 +103,7 @@ const login = ()=>{
             remember: param.remember
         }, (message)=>{
             ElMessage.success(message.message)
+            let sessionID = message.sessionID
             if(message.role === "admin"){
                 router.push('/admin')
             } else {

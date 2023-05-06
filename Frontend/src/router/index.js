@@ -19,10 +19,10 @@ const router = createRouter({
       children:[
         {
           path: "test",
-          component: () => import('@/components/welcome/test.vue')
+          component: () => import("@/components/test.vue")
         },{
           path: "test2",
-          component: () => import('@/components/welcome/test2.vue')
+          component: () => import('@/components/test2.vue')
         }
       ]
     }/*,{
